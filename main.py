@@ -27,7 +27,7 @@ def loadDictionary(dictionaryFile, allLetters):
     return dictionary
 
 
-def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetters, allLetters):
+def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetters, allLetters, maxWords = 5):
     """
     Function that implements backtracking to find the solution that uses 
     the fewest amount of words.
@@ -37,14 +37,14 @@ def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetter
     if set(usedLetters) == set(allLetters): 
         return usedWords
     
-    if len(usedWords) >= 5: # Maximum amount of words is 5
+    if len(usedWords) >= maxWords:
         return None
 
     for word in dictionary:
         if word[0] == usedWords[-1][-1]: # Next word must start with last word's last letter
             # Ensure that the word is valid and hasn't been used already
             if isValidWord(word, boardSides) and word[0] and word not in usedWords:
-                newUsedLetters = usedLetters + list(word)
+                newUsedLetters = usedLetters | set(word)
                 newUsedWords = usedWords + [word]
                 result = backtrackFunction(boardSides, dictionary, newUsedWords, word, newUsedLetters, allLetters)
 
@@ -66,7 +66,7 @@ def solveLetterBoxed(boardSides, dictionaryFile):
     # Find solution using backtracking
     for word in dictionary:
         if isValidWord(word, boardSides):
-            solution = backtrackFunction(boardSides, dictionary, [word], word, list(word), allLetters)
+            solution = backtrackFunction(boardSides, dictionary, [word], word, set(word), allLetters)
 
             if solution:
                 return solution
