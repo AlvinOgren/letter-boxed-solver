@@ -59,9 +59,12 @@ def solveLetterBoxed(boardSides, dictionaryFile):
     """
 
     print("Started solution searching")
+
     allLetters = "".join(boardSides)
     dictionary = loadDictionary(dictionaryFile, allLetters)
-    print("Read dictionary")
+
+    print("Finished reading dictionary")
+    
     # Find solution using backtracking
     for word in dictionary:
         if isValidWord(word, boardSides):
@@ -70,6 +73,7 @@ def solveLetterBoxed(boardSides, dictionaryFile):
             if solution:
                 return solution
     return None
+
 
 if __name__ == "__main__":
     sides = [
@@ -86,4 +90,3 @@ if __name__ == "__main__":
         print(f"Solution: {' -> '.join(solution)}")
     else:
         print("No solution found.")
-
