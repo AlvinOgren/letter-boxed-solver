@@ -29,8 +29,7 @@ def loadDictionary(dictionaryFile, allLetters):
 
 def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetters, allLetters, maxWords = 5):
     """
-    Function that implements backtracking to find the solution that uses 
-    the fewest amount of words.
+    Function that implements backtracking to find a solution.
     """
 
     # All letters have been used
