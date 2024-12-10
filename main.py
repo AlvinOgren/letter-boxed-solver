@@ -52,10 +52,9 @@ def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetter
     return None
 
 
-def solveLetterBoxed(boardSides, dictionaryFile):
+def solveLetterBoxedDFS(boardSides, dictionaryFile):
     """
-    Solves the Letter Boxed.
-    Returns the solution as a list of words, or None if no solution exists
+    Solves the Letter Boxed using DFS with a maxiumum word constraint.
     """
 
     print("Started solution searching")
@@ -74,6 +73,11 @@ def solveLetterBoxed(boardSides, dictionaryFile):
                 return solution
     return None
 
+def solveLetterBoxedBFS(boardSides, dictionaryFile):
+    """
+    Solve the Letter Boxed using BFS to find the solution with the fewest amount of words.
+    """
+    pass
 
 if __name__ == "__main__":
     sides = [
