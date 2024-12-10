@@ -1,6 +1,6 @@
 
 
-def isWordValid(word, boardSides):
+def isValidWord(word, boardSides):
     """
     Checks if a word is valid:
     No consecutive letters from same side.
@@ -13,7 +13,7 @@ def isWordValid(word, boardSides):
                 return False
     return True
 
-def readWords(dictionaryFile, allLetters):
+def loadDictionary(dictionaryFile, allLetters):
     """
     Reads and filters word from the dictionary file to only include words
     that can be formed with the given board letters, and of length three.
@@ -27,9 +27,6 @@ def readWords(dictionaryFile, allLetters):
     return dictionary
 
 
-
-
-
 def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetters, allLetters):
     """
     Function that implements backtracking to find the solution that uses 
@@ -41,28 +38,48 @@ def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetter
         return usedWords
 
     for word in dictionary:
-        if isWordValid(word, boardSides) and word[0] == currentWord[-1]: # Check if word is "drawn" correctly, and that the last letter is the first in new word
+        if isValidWord(word, boardSides) and word[0] == currentWord[-1]: # Check if word is "drawn" correctly, and that the last letter is the first in new word
             newUsedLetters = usedLetters + list(word)
             newUsedWords = usedWords + [word]
-            result = backtrackFunction(boardSides, dictionary, newUsedWords, newUsedLetters, allLetters)
+            result = backtrackFunction(boardSides, dictionary, newUsedWords, word, newUsedLetters, allLetters)
 
             if result:
-                return result
-            
+                return result       
     return None
 
+
+def solveLetterBoxed(boardSides, dictionaryFile):
+    """
+    Solves the Letter Boxed.
+    Returns the solution as a list of words, or None if no solution exists
+    """
+
+    print("Started solution searching")
+    allLetters = "".join(boardSides)
+    dictionary = loadDictionary(dictionaryFile, allLetters)
+    print("Read dictionary")
+    # Find solution using backtracking
+    for word in dictionary:
+        if isValidWord(word, boardSides):
+            solution = backtrackFunction(boardSides, dictionary, [word], word, list(word), allLetters)
+
+            if solution:
+                return solution
+    return None
 
 if __name__ == "__main__":
     # Input data
     sides = [
-        "WMSY",  # Letters on each side of the square
-        "TLOR",
-        "HNID"
+        "AWH",
+        "PTG",
+        "NRC",
+        "EYO"
     ]
-    dictionary_file = "dictionary.txt"  # Path to the dictionary file
+
+    dictionaryFile = "dictionary.txt"  # Path to the dictionary file
 
     # Solve the puzzle
-    solution = solveLetterBoxed(sides, dictionary_file)
+    solution = solveLetterBoxed(sides, dictionaryFile)
 
     # Output the solution
     if solution:
