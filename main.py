@@ -27,8 +27,30 @@ def readWords(dictionaryFile, allLetters):
     return dictionary
 
 
-def backtrack(boardSides, )
-    
+
+
+
+def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetters, allLetters):
+    """
+    Function that implements backtracking to find the solution that uses 
+    the fewest amount of words.
+    """
+
+    # All letters have been used
+    if set(usedLetters) == set(allLetters): 
+        return usedWords
+
+    for word in dictionary:
+        if isWordValid(word, boardSides) and word[0] == currentWord[-1]: # Check if word is "drawn" correctly, and that the last letter is the first in new word
+            newUsedLetters = usedLetters + list(word)
+            newUsedWords = usedWords + [word]
+            result = backtrackFunction(boardSides, dictionary, newUsedWords, newUsedLetters, allLetters)
+
+            if result:
+                return result
+            
+    return None
+
 
 if __name__ == "__main__":
     # Input data
