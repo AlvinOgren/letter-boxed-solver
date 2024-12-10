@@ -88,7 +88,7 @@ if __name__ == "__main__":
     ]
 
     dictionaryFile = "dictionary.txt"  # Path to the dictionary file
-    solution = solveLetterBoxed(sides, dictionaryFile)
+    solution = solveLetterBoxedDFS(sides, dictionaryFile)
 
     if solution:
         print(f"Solution: {' -> '.join(solution)}")
