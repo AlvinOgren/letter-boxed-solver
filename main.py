@@ -36,15 +36,20 @@ def backtrackFunction(boardSides, dictionary, usedWords, currentWord, usedLetter
     # All letters have been used
     if set(usedLetters) == set(allLetters): 
         return usedWords
+    
+    if len(usedWords) >= 5: # Maximum amount of words is 5
+        return None
 
     for word in dictionary:
-        if isValidWord(word, boardSides) and word[0] == currentWord[-1]: # Check if word is "drawn" correctly, and that the last letter is the first in new word
-            newUsedLetters = usedLetters + list(word)
-            newUsedWords = usedWords + [word]
-            result = backtrackFunction(boardSides, dictionary, newUsedWords, word, newUsedLetters, allLetters)
+        if word[0] == usedWords[-1][-1]: # Next word must start with last word's last letter
+            # Ensure that the word is valid and hasn't been used already
+            if isValidWord(word, boardSides) and word[0] and word not in usedWords:
+                newUsedLetters = usedLetters + list(word)
+                newUsedWords = usedWords + [word]
+                result = backtrackFunction(boardSides, dictionary, newUsedWords, word, newUsedLetters, allLetters)
 
-            if result:
-                return result       
+                if result:
+                    return result       
     return None
 
 
@@ -68,7 +73,6 @@ def solveLetterBoxed(boardSides, dictionaryFile):
     return None
 
 if __name__ == "__main__":
-    # Input data
     sides = [
         "AWH",
         "PTG",
@@ -77,11 +81,8 @@ if __name__ == "__main__":
     ]
 
     dictionaryFile = "dictionary.txt"  # Path to the dictionary file
-
-    # Solve the puzzle
     solution = solveLetterBoxed(sides, dictionaryFile)
 
-    # Output the solution
     if solution:
         print(f"Solution: {' -> '.join(solution)}")
     else:
